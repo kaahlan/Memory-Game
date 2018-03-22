@@ -1,7 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-
+var cards = ["diamond", "diamond", "paper-plane-o", "paper-plane-o", "anchor", "anchor",
+            "bolt", "bolt", "cube", "cube", "leaf", "leaf", "bicycle", "bicycle", "bomb", "bomb"];
 
 /*
  * Display the cards on the page
@@ -9,6 +10,13 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+function createDeck() {
+ deck = shuffle(cards);
+ deck.forEach(function(card) {
+   $('.deck').append('<li class="card"><i class="fa fa-' + card + '"></i></li>');
+ })
+ openCard();
+};
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -25,6 +33,13 @@ function shuffle(array) {
     return array;
 }
 
+function openCard() {
+  $(".card").on("click", function() {
+    $(this).toggleClass("flipInY open show");
+  })
+};
+
+createDeck();
 
 /*
  * set up the event listener for a card. If a card is clicked:
