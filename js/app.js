@@ -5,6 +5,9 @@ const cards = ["diamond", "diamond", "paper-plane-o", "paper-plane-o", "anchor",
 let openCards = [];
 let moves = 0;
 let matches = 0;
+let timer = 0;
+let starRating = "3";
+let timerIncrement;
 
 //Creates the game deck using shuffle function and cards array.
 function createDeck() {
@@ -72,9 +75,50 @@ function checkMatch() {
       }, 1000);
     }
   }
+  updateMoves();
 }
 
-//TODO: Moves function, timer function, reset function, star rating function.
+//Updates Moves HTML and text.
+function updateMoves() {
+  $(".moves").text(moves.toString());
+  if (moves === 1) {
+    $(".movesText").text(" Move");
+  } else {
+    $(".movesText").text(" Moves");
+  }
+  updateStars();
+}
+
+//Establishes Star Rating levels and modifies HTML.
+//TODO: Change star ratings back to correct values, lower for testing.
+function updateStars() {
+  if (moves >= 0 && moves < 2) {
+    starRating = "3";
+  } if (moves >= 2 && moves < 4) {
+    $("#star3").remove();
+    starRating = "2";
+  } if (moves >= 4 && moves < 6) {
+    $("#star2").remove();
+    starRating = "1";
+  } if (moves >= 6) {
+    $("#star1").remove();
+    starRating = "0";
+  }
+}
+
+//Starts timer function, incrememnts seconds by 1 every 1000 milliseconds and updates HTML.
+function timerStart() {
+  timer++;
+  $("#timer").html(timer);
+  timerIncrement = setTimeout(timerStart, 1000);
+  if (timer === 1) {
+    $("#timerText").text(" Second");
+  } else {
+    $("#timerText").text(" Seconds");
+  }
+}
+
+//TODO: Reset function, finish win modal.
 
 /*
 Basic win functionality.
@@ -86,6 +130,17 @@ function win() {
   modal.style.display = "block";
 }
 
-//Event listeners.
-createDeck();
-showCard();
+//Primary game function.
+function gameStart() {
+  createDeck();
+  showCard();
+  let firstClick = 0;
+  $(".card").on("click", function() {
+    firstClick += 1;
+    if (firstClick === 1) {
+      timerStart();
+    }
+  });
+}
+
+gameStart();
