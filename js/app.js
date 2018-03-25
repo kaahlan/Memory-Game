@@ -6,8 +6,8 @@ let openCards = [];
 let moves = 0;
 let matches = 0;
 let timer = 0;
-let starRating = "3";
 let timerIncrement;
+let starRating = "3";
 
 //Creates the game deck using shuffle function and cards array.
 function createDeck() {
@@ -118,13 +118,36 @@ function timerStart() {
   }
 }
 
-//TODO: Reset function, finish win modal.
+/*
+Reset function, empties deck and stars HTML. Stops timer.
+Resets openCards, moves, matches, timer, starRating and
+updates HTML where needed. Returns gameStart.
+*/
+function resetGame() {
+  $("ul.deck").html("");
+  $(".stars").html("");
+  clearTimeout(timerIncrement);
+  openCards = [];
+  moves = 0;
+  $(".moves").text(moves.toString());
+  matches = 0;
+  timer = 0;
+  $("#timer").html(timer);
+  starRating = "3";
+  let stars = ["1", "2", "3"]
+  stars.forEach(function(star) {
+    $('.stars').append('<li id="star' + star + '"><i class="fa fa-star"></i></li>\n');
+  });
+  gameStart();
+}
 
 /*
 Basic win functionality.
 TODO: Add time, star score, moves, replay button.
 */
 function win() {
+  clearTimeout(timerIncrement);
+
   let modal = document.getElementById('myModal');
 
   modal.style.display = "block";
