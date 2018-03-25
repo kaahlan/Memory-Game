@@ -27,9 +27,9 @@
       <span class="moves">0</span><span class="movesText"> Moves</span>
 
       <div class="timer-panel">
-        <span id="timer">0</span><span id="timerText"> Seconds</span>
+        <span class="timer">0</span><span class="timerText"> Seconds</span>
 
-        <span id="restart">
+        <span class="restart" onclick="resetGame();">
           <i class="fa fa-repeat"></i>
         </span>
       </div>
@@ -41,7 +41,11 @@
 
   <div id="myModal" class="modal">
     <div class="modal-content">
-      <p>You Win!</p>
+      <h1>YOU WIN!</h1>
+      <p>You finished in <span class="timer">0</span> seconds!<p>
+      <p>With <span class="moves">0</span> moves made, you've earned a <span class="starRating">3</span> star rating!</p>
+      <p>Would you like to play again?</p>
+      <button id="yes">Yes</button><button id="no">No</button>
     </div>
   </div>
 
