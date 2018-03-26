@@ -1,6 +1,7 @@
 //Global varibales, including List of cards to populate the game deck.
-const cards = ['diamond', 'diamond', 'paper-plane-o', 'paper-plane-o', 'anchor', 'anchor',
-  'bolt', 'bolt', 'cube', 'cube', 'leaf', 'leaf', 'bicycle', 'bicycle', 'bomb', 'bomb'];
+const cards = ['key', 'key', 'trophy', 'trophy', 'flask', 'flask', 'bolt', 'bolt',
+  'puzzle-piece', 'puzzle-piece', 'leaf', 'leaf', 'tint', 'tint', 'bomb', 'bomb'
+];
 let openCards = [];
 let moves = 0;
 let matches = 0;
@@ -16,7 +17,7 @@ function createDeck() {
   });
 }
 
-// Shuffle function from http://stackoverflow.com/a/2450976
+// Shuffle function from http://stackoverflow.com/a/2450976.
 function shuffle(array) {
   let currentIndex = array.length,
     temporaryValue, randomIndex;
@@ -45,8 +46,8 @@ function showCard() {
 }
 
 /*
-Matching function, checks once 2 cards are opened. Prevents further clicks on unopened
-cards. Matches stay open, non-matches turn back over, calls win function once all matched.
+Matching function, checks once 2 cards are opened. Increments moves. Prevents further clicks
+on unopened cards. Matches stay open, non-matches turn back over, calls win function once all matched. Delays added for clicks, animations, win modal.
 */
 function checkMatch() {
   if (openCards.length === 2) {
@@ -59,7 +60,9 @@ function checkMatch() {
       setTimeout(function() {
         matches++;
         if (matches === 8) {
-          return win();
+          setTimeout(function() {
+            return win();
+          }, 800);
         }
         openCards = [];
         return showCard();
@@ -81,7 +84,7 @@ function checkMatch() {
   updateMoves();
 }
 
-//Updates Moves HTML and text.
+//Updates Moves HTML and text. Calls updateStars function.
 function updateMoves() {
   $('.moves').text(moves.toString());
   if (moves === 1) {
@@ -92,17 +95,20 @@ function updateMoves() {
   updateStars();
 }
 
-//Establishes Star Rating levels and modifies HTML.
+//Establishes Star Rating level parameters and updates HTML.
 function updateStars() {
-  if (moves >= 0 && moves < 16) {
+  if (moves >= 0 && moves < 18) {
     starRating = '3';
-  } if (moves >= 16 && moves < 24) {
+  }
+  if (moves >= 18 && moves < 26) {
     $('#star3').remove();
     starRating = '2';
-  } if (moves >= 24 && moves < 32) {
+  }
+  if (moves >= 26 && moves < 34) {
     $('#star2').remove();
     starRating = '1';
-  } if (moves >= 32) {
+  }
+  if (moves >= 34) {
     $('#star1').remove();
     starRating = '0';
   }
@@ -122,8 +128,9 @@ function timerStart() {
 
 /*
 Reset function, empties deck and stars HTML. Stops timer.
-Resets openCards, moves, matches, timer, starRating and
-updates HTML where needed. Returns gameStart.
+Resets openCards, moves, matches, timer, starRating, star icons,
+and updates HTML where needed. Returns gameStart.
+Used for reset button and in modal.
 */
 function resetGame() {
   $('ul.deck').html('');
@@ -137,37 +144,32 @@ function resetGame() {
   $('.timer').html(timer);
   starRating = '3';
   $('.starRating').html(starRating);
-  let stars = ['1', '2', '3']
+  let stars = ['1', '2', '3'];
   stars.forEach(function(star) {
     $('.stars').append('<li id="star' + star + '"><i class="fa fa-star"></i></li>\n');
   });
   gameStart();
 }
 
-
-/*Win function. Stops timer, updates Star Rating HTML, pops up Modal annoucnement with
+/*
+Win function. Stops timer, updates Star Rating HTML, pops up Modal annoucnement with
 Time, moves made, amd star rating. Replay buttons, yes resets game, no updates modal message.
 */
 function win() {
   clearTimeout(timerIncrement);
   $('.starRating').html(starRating);
-
   let modal = document.getElementById('myModal');
-
   modal.style.display = 'block';
-
   $("#yes").on("click", function() {
     modal.style.display = "none";
     resetGame();
-  })
-
+  });
   $("#no").on("click", function() {
-    $('.modal-content').html("Thanks for playing!");
-  })
-
+    $('.modal-content').html("<h1>Thanks for playing!</h1>");
+  });
 }
 
-//Primary game function.
+//Primary game function. Starts timer on first card clicked.
 function gameStart() {
   createDeck();
   showCard();
