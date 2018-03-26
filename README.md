@@ -12,7 +12,7 @@ How to play - Click on two cards to flip them over, if they match, congratulatio
 matching pair! If they don't match, the cards will turn back over. Keep trying to match cards until
 you can match all 8 pairs! Your star rating will depend on how many moves you make!
 
-## resources
+## Resources
 
 Background (/img/iconsBackground.png) made by me in Photoshop CC using Font Awesome icons.
 
